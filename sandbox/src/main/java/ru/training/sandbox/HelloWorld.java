@@ -1,3 +1,4 @@
+package ru.training.sandbox;
 
 public class HelloWorld {
 
