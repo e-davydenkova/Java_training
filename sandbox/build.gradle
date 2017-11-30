@@ -1,3 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = "HelloWorld"
+mainClassName = "ru.training.sandbox.HelloWorld"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.13.1'
+}
