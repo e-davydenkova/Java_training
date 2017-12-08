@@ -15,7 +15,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    public void fillNewContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"),contactData.getFirstName());
         type(By.name("middlename"),contactData.getMiddleName());
         type(By.name("lastname"),contactData.getLastName());
@@ -28,4 +28,22 @@ public class ContactHelper extends HelperBase {
         type(By.name("work"),contactData.getWorkPhone());
         type(By.name("fax"),contactData.getFax());
     }
+
+    public void clickOnEditContact() {
+        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    }
+
+    public void updateContactCreation() {
+        click(By.name("update"));
+    }
+
+    public void selectContact() {
+        click(By.name("selected[]"));
+    }
+
+    public void deleteContact() {
+        click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+        acceptAlert();
+    }
+
 }
