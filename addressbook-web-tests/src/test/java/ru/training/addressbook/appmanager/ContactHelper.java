@@ -1,12 +1,13 @@
 package ru.training.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.training.addressbook.model.ContactData;
 
 public class ContactHelper extends HelperBase {
-    FirefoxDriver wd;
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -16,7 +17,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    public void fillContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"),contactData.getFirstName());
         type(By.name("middlename"),contactData.getMiddleName());
         type(By.name("lastname"),contactData.getLastName());
@@ -28,6 +29,12 @@ public class ContactHelper extends HelperBase {
         type(By.name("mobile"),contactData.getMobilePhone());
         type(By.name("work"),contactData.getWorkPhone());
         type(By.name("fax"),contactData.getFax());
+
+        if (creation) {
+            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
 
     public void clickOnEditContact() {
