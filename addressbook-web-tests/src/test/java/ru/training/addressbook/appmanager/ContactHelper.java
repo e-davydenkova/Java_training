@@ -40,8 +40,9 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void clickOnEditContact() {
-        click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    public void clickOnEditContact(int index) {
+ //       click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+        wd.findElements(By.cssSelector("table#maintable a[href^=edit]")).get(index).click();
     }
 
     public void updateContactCreation() {
@@ -74,8 +75,8 @@ public class ContactHelper extends HelperBase {
         for (WebElement element : elements){
             String firstName = element.findElement(By.cssSelector("td:nth-child(3)")).getText();
             String lastName = element.findElement(By.cssSelector("td:nth-child(2)")).getText();
-//            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            ContactData group = new ContactData(firstName, null, lastName, null, null,
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            ContactData group = new ContactData(id, firstName, null, lastName, null, null,
                     null, null, null, null, null, null, null, null);
             contact.add(group);
         }

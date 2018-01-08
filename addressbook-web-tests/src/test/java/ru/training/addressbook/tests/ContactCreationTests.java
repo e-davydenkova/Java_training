@@ -31,18 +31,18 @@ public class ContactCreationTests extends TestBase {
         app.getNavigationHelper().gotoAddNewPage();
         app.getContactHelper().createNewContact(contact, true);
 
-        // number of contacts after creating a new
+        // number of contacts after creating a new one
         app.getNavigationHelper().gotoHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
 
-        // check that sizes of the lists
+        // check sizes of the lists
         Assert.assertEquals(after.size(), before.size() + 1);
 
         // compare lists
         before.add(contact);
-        Comparator<? super ContactData> byFirstName = (g1, g2) -> g1.getFirstName().compareTo(g2.getFirstName());
-        before.sort(byFirstName);
-        after.sort(byFirstName);
+        Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
+        before.sort(byId);
+        after.sort(byId);
         Assert.assertEquals(before, after);
     }
 

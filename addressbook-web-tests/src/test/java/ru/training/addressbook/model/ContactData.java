@@ -1,6 +1,7 @@
 package ru.training.addressbook.model;
 
 public class ContactData {
+    private int id;
     private final String firstName;
     private final String middleName;
     private final String lastName;
@@ -15,6 +16,7 @@ public class ContactData {
     private String group;
 
     public ContactData(String firstName, String middleName, String lastName, String nickname, String title, String company, String address, String home, String homePhone, String mobilePhone, String workPhone, String fax, String group) {
+        this.id = Integer.MAX_VALUE;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -29,6 +31,38 @@ public class ContactData {
         this.group = group;
     }
 
+    public ContactData(int id, String firstName, String middleName, String lastName, String nickname, String title, String company, String address, String home, String homePhone, String mobilePhone, String workPhone, String fax, String group) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.nickname = nickname;
+        this.title = title;
+        this.company = company;
+        this.address = address;
+        this.homePhone = homePhone;
+        this.mobilePhone = mobilePhone;
+        this.workPhone = workPhone;
+        this.fax = fax;
+        this.group = group;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -79,14 +113,6 @@ public class ContactData {
 
     public void setGroup(String group) {
         this.group = group;
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
     }
 
     @Override
