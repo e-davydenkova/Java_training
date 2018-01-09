@@ -13,9 +13,9 @@ public class ContactCreationTests extends TestBase {
     @Test
     public void testCreateNewContact() {
         // check if any groups present to connect with a group; if no then create
-        app.getNavigationHelper().gotoGroupPage();
-        if (! app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+        app.goTo().groupPage();
+        if (! app.group().isThereAGroup()) {
+            app.group().create(new GroupData().withName("test1"));
         }
 
         ContactData contact = new ContactData("First name", "Middle name",
@@ -24,15 +24,15 @@ public class ContactCreationTests extends TestBase {
                 "test1");
 
         // number of contacts before creating a new
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> before = app.getContactHelper().getContactList();
 
         // create a new contact
-        app.getNavigationHelper().gotoAddNewPage();
+        app.goTo().gotoAddNewPage();
         app.getContactHelper().createNewContact(contact, true);
 
         // number of contacts after creating a new one
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
 
         // check sizes of the lists

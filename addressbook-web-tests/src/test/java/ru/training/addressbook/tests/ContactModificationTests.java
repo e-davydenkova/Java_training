@@ -14,16 +14,16 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification(){
 
         //check if there is any contact; if no then create
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         if (! app.getContactHelper().isThereAContact()) {
-            app.getNavigationHelper().gotoAddNewPage();
+            app.goTo().gotoAddNewPage();
             app.getContactHelper().createNewContact(new ContactData("First name", null, "Last name",
                     null, null, null, null, null, null, null,
                     null, null, null), true);
         }
 
         //get the list of contacts before modification
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> before = app.getContactHelper().getContactList();
 
         //contact data to modify to
@@ -38,7 +38,7 @@ public class ContactModificationTests extends TestBase {
         app.getContactHelper().updateContactCreation();
 
         //get the list of contacts after modification
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().gotoHomePage();
         List<ContactData> after = app.getContactHelper().getContactList();
         //compare sizes of the lists
         Assert.assertEquals(after.size(), before.size());
