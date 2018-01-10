@@ -1,36 +1,37 @@
 package ru.training.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.training.addressbook.model.ContactData;
+import ru.training.addressbook.model.Contacts;
 
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class ContactDeletionTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().homePage();
+        if (app.contact().all().size() == 0) {
+            app.contact().create(new ContactData().withFirstName("First name"), true);
+        }
+    }
+
     @Test
     public void testContactDeletion() {
-        app.goTo().gotoHomePage();
-        if (! app.getContactHelper().isThereAContact()) {
-            app.goTo().gotoAddNewPage();
-            app.getContactHelper().createNewContact(new ContactData("First name", "Middle name",
-                    "Last name", "Nickname", "Title", "Company", "Address",
-                    "Home", "Home phone", "Mobile phone", "work phone",
-                    "Fax", "test1"), true);
-        }
 
-        app.goTo().gotoHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+        Contacts before = app.contact().all();
 
-        app.getContactHelper().selectContact(0);
-        app.getContactHelper().deleteContact();
+        ContactData deletedContact = before.iterator().next();
+        app.contact().delete(deletedContact);
 
-        app.goTo().gotoHomePage();
-        List<ContactData> after = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+        Contacts after = app.contact().all();
 
-        Assert.assertEquals(after.size(), before.size() - 1);
-
-        before.remove(0);
-        Assert.assertEquals(before, after);
+        assertEquals(after.size(), before.size() - 1);
+        assertThat(after, equalTo(before.without(deletedContact)));
     }
 }

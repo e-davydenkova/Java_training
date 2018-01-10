@@ -1,49 +1,49 @@
 package ru.training.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.training.addressbook.model.ContactData;
+import ru.training.addressbook.model.Contacts;
 import ru.training.addressbook.model.GroupData;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-    @Test
-    public void testCreateNewContact() {
-        // check if any groups present to connect with a group; if no then create
+    @BeforeMethod
+    public void ensurePreconditions() {
         app.goTo().groupPage();
-        if (! app.group().isThereAGroup()) {
+        if (app.group().all().size() == 0) {
             app.group().create(new GroupData().withName("test1"));
         }
 
-        ContactData contact = new ContactData("First name", "Middle name",
-                "Last name", "Nickname", "Title", "Company", "Address",
-                "Home", "Home phone", "Mobile phone", "work phone", "Fax",
-                "test1");
+    }
 
-        // number of contacts before creating a new
-        app.goTo().gotoHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
+    @Test
+    public void testCreateNewContact() {
+        // number of contacts before creating a new one
+        app.goTo().homePage();
+        Contacts before = app.contact().all();
+
+        ContactData contact = new ContactData().withFirstName("First name").withMiddleName("Middle name").
+                withLastName("Last name").withNickname("Nickname").withTitle("Title").withCompany("Company").
+                withAddress("Address").withHomePhone("Home phone").withMobilePhone("Mobile phone").
+                withWorkPhone("Work phone").withFax("Fax").withGroup("test1");
 
         // create a new contact
-        app.goTo().gotoAddNewPage();
-        app.getContactHelper().createNewContact(contact, true);
+        app.goTo().addNewPage();
+        app.contact().create(contact, true);
 
         // number of contacts after creating a new one
-        app.goTo().gotoHomePage();
-        List<ContactData> after = app.getContactHelper().getContactList();
+        app.goTo().homePage();
+       Contacts after = app.contact().all();
 
-        // check sizes of the lists
-        Assert.assertEquals(after.size(), before.size() + 1);
+        // check sizes
+        assertThat(after.size(), equalTo(before.size() + 1));
 
         // compare lists
-        before.add(contact);
-        Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 
 }

@@ -1,56 +1,44 @@
 package ru.training.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.training.addressbook.model.ContactData;
+import ru.training.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 
 public class ContactModificationTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().homePage();
+        if (app.contact().all().size() == 0) {
+            app.contact().create(new ContactData().withFirstName("First name"), true);
+        }
+    }
+
     @Test
     public void testContactModification(){
 
-        //check if there is any contact; if no then create
-        app.goTo().gotoHomePage();
-        if (! app.getContactHelper().isThereAContact()) {
-            app.goTo().gotoAddNewPage();
-            app.getContactHelper().createNewContact(new ContactData("First name", null, "Last name",
-                    null, null, null, null, null, null, null,
-                    null, null, null), true);
-        }
+        app.goTo().homePage();
+        Contacts before = app.contact().all();
 
-        //get the list of contacts before modification
-        app.goTo().gotoHomePage();
-        List<ContactData> before = app.getContactHelper().getContactList();
+        ContactData modifiedContact = before.iterator().next();
+        ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstName("First name").
+                withMiddleName("Middle name").withLastName("Last name").withNickname("Nickname").
+                withTitle("Title").withCompany("Company").withAddress("Address").withHomePhone("Home phone").
+                withMobilePhone("Mobile phone").withWorkPhone("Work phone").withFax("Fax");
 
-        //contact data to modify to
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(),"First name", "Middle name",
-                "Last name", "Nickname", "Title", "Company", "Address",
-                "Home", "Home phone", "Mobile phone", "work phone",
-                "Fax", null);
+        app.contact().modify(contact);
 
-        //choose and modify the last contact
-        app.getContactHelper().clickOnEditContact(before.size()-1);
-        app.getContactHelper().fillContactForm(contact, false);
-        app.getContactHelper().updateContactCreation();
+        app.goTo().homePage();
+        Contacts after = app.contact().all();
 
-        //get the list of contacts after modification
-        app.goTo().gotoHomePage();
-        List<ContactData> after = app.getContactHelper().getContactList();
-        //compare sizes of the lists
-        Assert.assertEquals(after.size(), before.size());
+        assertEquals(after.size(), before.size());
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
 
-        //modify the last elemant in the before list
-        before.remove(before.size() - 1);
-        before.add(contact);
-
-        //compare sorted by Id before and after lists
-        Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
     }
 }
