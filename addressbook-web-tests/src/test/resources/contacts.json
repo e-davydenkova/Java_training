@@ -37,31 +37,5 @@
     "mobilePhone": "Mobile phone 2",
     "workPhone": "Work phone 2",
     "fax": "Fax 2"
-  },
-  {
-    "firstName": "First name 3",
-    "middleName": "Middle name 3",
-    "lastName": "Last name 3",
-    "nickname": "Nickname 3",
-    "title": "Title 3",
-    "company": "Company 3",
-    "address": "Address 3",
-    "homePhone": "Home phone 3",
-    "mobilePhone": "Mobile phone 3",
-    "workPhone": "Work phone 3",
-    "fax": "Fax 3"
-  },
-  {
-    "firstName": "First name 4",
-    "middleName": "Middle name 4",
-    "lastName": "Last name 4",
-    "nickname": "Nickname 4",
-    "title": "Title 4",
-    "company": "Company 4",
-    "address": "Address 4",
-    "homePhone": "Home phone 4",
-    "mobilePhone": "Mobile phone 4",
-    "workPhone": "Work phone 4",
-    "fax": "Fax 4"
   }
 ]
