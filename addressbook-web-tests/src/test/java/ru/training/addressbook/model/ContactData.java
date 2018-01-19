@@ -18,7 +18,7 @@ public class ContactData {
     private String firstName;
 
     @Expose
-    @Transient
+    @Column(name = "middlename")
     private String middleName;
 
     @Expose
@@ -26,19 +26,20 @@ public class ContactData {
     private String lastName;
 
     @Expose
-    @Transient
+    @Column(name = "nickname")
     private String nickname;
 
     @Expose
-    @Transient
+    @Column(name = "title")
     private String title;
 
     @Expose
-    @Transient
+    @Column(name = "company")
     private String company;
 
     @Expose
-    @Transient
+    @Column(name = "address")
+    @Type(type = "text")
     private String address;
 
     @Expose
@@ -60,7 +61,8 @@ public class ContactData {
     private String allPhones;
 
     @Expose
-    @Transient
+    @Column(name = "fax")
+    @Type(type = "text")
     private String fax;
 
     @Transient
@@ -274,14 +276,32 @@ public class ContactData {
 
         if (id != that.id) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
+        if (middleName != null ? !middleName.equals(that.middleName) : that.middleName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (company != null ? !company.equals(that.company) : that.company != null) return false;
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
+        if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
+        if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
+        return fax != null ? fax.equals(that.fax) : that.fax == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (company != null ? company.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+        result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+        result = 31 * result + (fax != null ? fax.hashCode() : 0);
         return result;
     }
 }
