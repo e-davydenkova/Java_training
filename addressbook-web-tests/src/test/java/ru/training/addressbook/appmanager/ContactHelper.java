@@ -36,7 +36,11 @@ public class ContactHelper extends HelperBase {
         type(By.name("fax"),contactData.getFax());
 
         if (creation) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group")))
+                        .selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -62,8 +66,6 @@ public class ContactHelper extends HelperBase {
     public void delete(ContactData contact) {
         selectContactById(contact.getId());
         deleteSelectedContact();
-//        click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
-
     }
 
     public void create(ContactData contactData, boolean creation) {

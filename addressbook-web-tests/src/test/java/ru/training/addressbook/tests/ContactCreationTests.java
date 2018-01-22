@@ -52,7 +52,8 @@ public class ContactCreationTests extends TestBase {
         Contacts before = app.db().contacs();
 
         // connect contact to a group
-        contact.withGroup("test1");
+        contact.inGroup(app.db().groups().iterator().next());
+   //!!!     contact.withGroup("test1");
 
         // create a new contact
         app.goTo().addNewPage();

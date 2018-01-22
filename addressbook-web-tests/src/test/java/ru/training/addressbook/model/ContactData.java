@@ -5,6 +5,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -66,9 +68,6 @@ public class ContactData {
     private String fax;
 
     @Transient
-    private String group;
-
-    @Transient
     private String email;
 
     @Transient
@@ -83,6 +82,11 @@ public class ContactData {
     @Column(name = "photo")
     @Type(type = "text")
     private String photo;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
 
     @Override
     public String toString() {
@@ -162,22 +166,15 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
-
     public ContactData withEmail(String email) {
         this.email = email;
         return this;
     }
 
-
     public ContactData withEmail2(String email2) {
         this.email2 = email2;
         return this;
     }
-
 
     public ContactData withEmail3(String email3) {
         this.email3 = email3;
@@ -192,6 +189,10 @@ public class ContactData {
     public ContactData withPhoto(File photo) {
         this.photo = photo.getPath();
         return this;
+    }
+
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     public String getFirstName() {
@@ -236,10 +237,6 @@ public class ContactData {
 
     public String getFax() {
         return fax;
-    }
-
-    public String getGroup() {
-        return group;
     }
 
     public int getId() {
@@ -303,5 +300,10 @@ public class ContactData {
         result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
         result = 31 * result + (fax != null ? fax.hashCode() : 0);
         return result;
+    }
+
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
     }
 }
