@@ -49,7 +49,7 @@ public class ContactCreationTests extends TestBase {
     public void testCreateNewContact(ContactData contact) {
         // number of contacts before creating a new one
 
-        Contacts before = app.db().contacs();
+        Contacts before = app.db().contacts();
 
         // connect contact to a group
         contact.inGroup(app.db().groups().iterator().next());
@@ -60,7 +60,7 @@ public class ContactCreationTests extends TestBase {
         app.contact().create(contact, true);
 
         // number of contacts after creating a new one
-       Contacts after = app.db().contacs();
+       Contacts after = app.db().contacts();
 
         // check sizes
         assertThat(after.size(), equalTo(before.size() + 1));

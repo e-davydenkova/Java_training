@@ -8,8 +8,6 @@ import org.testng.Assert;
 import ru.training.addressbook.model.ContactData;
 import ru.training.addressbook.model.Contacts;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -79,6 +77,21 @@ public class ContactHelper extends HelperBase {
         updateContactCreation();
     }
 
+    public void addToGroup(ContactData contact, String groupName) {
+        selectContactById(contact.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(groupName);
+        wd.findElement(By.name("add")).click();
+    }
+
+    public void removeContact(ContactData contact, String groupName) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(groupName);
+        selectContactById(contact.getId());
+        wd.findElement(By.name("remove")).click();
+        returnToHomepage();
+    }
+
+    private void returnToHomepage() { click(By.linkText("home")); }
+
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
@@ -115,4 +128,5 @@ public class ContactHelper extends HelperBase {
                 .withEmail(email).withEmail2(email2).withEmail3(email3).withAddress(address);
 
     }
+
 }

@@ -31,6 +31,15 @@ public class GroupData {
     @ManyToMany(mappedBy = "groups")
     private Set<ContactData> contacts = new HashSet<ContactData>();
 
+    public Contacts getContacts() {
+        return new Contacts(contacts);
+    }
+
+    public GroupData setContacts(Contacts contacts) {
+        this.contacts = contacts;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,5 +104,10 @@ public class GroupData {
 
     public String getFooter() {
         return footer;
+    }
+
+    public GroupData removeContact(ContactData contact) {
+        contacts.remove(contact);
+        return this;
     }
 }

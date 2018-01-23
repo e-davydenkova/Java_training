@@ -3,6 +3,7 @@ package ru.training.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ru.training.addressbook.model.ContactData;
 import ru.training.addressbook.model.GroupData;
 import ru.training.addressbook.model.Groups;
 
@@ -73,6 +74,8 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
+
+
     public boolean isThereAGroup() {
         return isElementPresent(By.name("selected[]"));
     }
@@ -96,6 +99,5 @@ public class GroupHelper extends HelperBase {
         }
         return new Groups(groupCache);
     }
-
 
 }
