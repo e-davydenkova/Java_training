@@ -23,6 +23,17 @@ public class ContactAddToGroupTest extends TestBase {
             app.goTo().groupPage();
             app.group().create(new GroupData().withName("test1"));
         }
+        Boolean canAdd = false;
+        for (ContactData c : app.db().contacts()) {
+            if (c.getGroups().size() < app.db().groups().size()) {
+                canAdd = true;
+                break;
+            }
+        }
+        if (!canAdd) {
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("test2"));
+        }
     }
 
     @Test

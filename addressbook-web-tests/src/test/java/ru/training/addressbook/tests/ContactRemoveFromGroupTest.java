@@ -23,6 +23,17 @@ public class ContactRemoveFromGroupTest extends TestBase {
             app.goTo().homePage();
             app.contact().create(new ContactData().withFirstName("First name"), true);
         }
+        Boolean canRemove = false;
+        for (GroupData g : app.db().groups()) {
+            if (g.getContacts().size() > 0) {
+                canRemove = true;
+                break;
+            }
+        }
+        if (!canRemove) {
+            app.goTo().homePage();
+            app.contact().addToGroup(app.db().contacts().iterator().next(), app.db().groups().iterator().next().getName());
+        }
     }
 
     @Test
