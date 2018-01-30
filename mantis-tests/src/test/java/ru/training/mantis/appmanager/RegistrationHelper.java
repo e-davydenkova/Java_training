@@ -22,4 +22,5 @@ public class RegistrationHelper extends HelperBase {
         click(By.cssSelector("input[value='Update User']"));
 
     }
+
 }
