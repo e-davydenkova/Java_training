@@ -1,6 +1,5 @@
 package ru.training.mantis.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.training.mantis.model.Issue;
 import ru.training.mantis.model.Project;
@@ -30,5 +29,12 @@ public class SoapTests extends TestBase {
                 .withProject(projects.iterator().next());
         Issue created = app.soap().addIssue(issue);
         assertEquals(issue.getSummary(), created.getSummary());
+    }
+
+    @Test
+    public void testIsIssueOpen() throws RemoteException, ServiceException, MalformedURLException {
+        final int issueId = 2;
+        skipIfNotFixed(issueId);
+        System.out.println("The issue have been fixed, start testing");
     }
 }
