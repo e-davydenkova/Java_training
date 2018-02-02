@@ -28,7 +28,7 @@ public class ChangePasswordTests extends TestBase {
         // select user to reset password from exiting users in db
         List<UserData> users = app.db().users();
         for (UserData u : users) {
-            if (u.getEmail().contains("@localhost.localdomain")) {
+            if (u.getEmail().contains("@localhost.localdomain") && (!u.getName().equals("administrator"))) {
                 user = u;
                 break;
             }
