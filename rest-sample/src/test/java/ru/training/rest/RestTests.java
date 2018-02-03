@@ -14,7 +14,7 @@ import java.util.Set;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-public class RestTests {
+public class RestTests extends TestBase {
 
     @Test
     public void testCreateIssue() throws IOException {
@@ -34,9 +34,6 @@ public class RestTests {
         return new Gson().fromJson(issues, new TypeToken<Set<Issue>>(){}.getType());
     }
 
-    private Executor getExecutor() {
-        return Executor.newInstance().auth("28accbe43ea112d9feb328d2c00b3eed", "");
-    }
 
     private int createIssue(Issue newIssue) throws IOException {
         String json = getExecutor().execute(Request.Post("http://demo.bugify.com/api/issues.json")
@@ -47,5 +44,11 @@ public class RestTests {
         return parsed.getAsJsonObject().get("issue_id").getAsInt();
     }
 
+    @Test
+    public void testIsIssueOpen() throws IOException {
+        final int issueId = 1;
+        skipIfNotFixed(issueId);
+        System.out.println("The issue have been fixed, start testing");
+    }
 
 }
