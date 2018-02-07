@@ -6,8 +6,6 @@
             <class name="ru.training.addressbook.tests.ContactCreationTests"/>
             <class name="ru.training.addressbook.tests.ContactModificationTests" />
             <class name="ru.training.addressbook.tests.ContactDeletionTests" />
-            <class name ="ru.training.addressbook.tests.ContactAddToGroupTest" />
-            <class name ="ru.training.addressbook.tests.ContactRemoveFromGroupTest" />
         </classes>
     </test>
 </suite>
